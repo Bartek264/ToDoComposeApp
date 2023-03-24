@@ -9,12 +9,14 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.todocomposeapp.ui.component.ListTopBar
 import com.example.todocomposeapp.ui.theme.Purple700
 
 @Composable
 fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}) {
 	Scaffold(
-		content = {  },
+		content = { },
+		topBar = { ListTopBar() },
 		floatingActionButton = { ListFAB(navigateToTaskScreen) }
 	)
 }
@@ -22,7 +24,7 @@ fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}) {
 @Preview(showBackground = true)
 @Composable
 private fun ListFAB(navigateToTaskScreen: (Long) -> Unit = {}) {
-	FloatingActionButton(onClick = { navigateToTaskScreen(1) }, backgroundColor = Purple700) {
+	FloatingActionButton(onClick = { navigateToTaskScreen(1) }) {
 		Icon(imageVector = Icons.Filled.Add, contentDescription = null, tint = Color.White)
 	}
 }

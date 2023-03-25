@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.todocomposeapp.ui.component.ListTopBar
-import com.example.todocomposeapp.ui.theme.Purple700
+import com.example.todocomposeapp.ui.theme.ToDoComposeAppTheme
 import com.example.todocomposeapp.ui.theme.fabBackgroundColor
 
 @Composable
@@ -36,7 +36,7 @@ private fun ListFAB(navigateToTaskScreen: (Long) -> Unit = {}) {
 @Preview(showSystemUi = true)
 @Composable
 fun ListScreenPreview() {
-	MaterialTheme {
+	ToDoComposeAppTheme {
 		ListScreen()
 	}
 }

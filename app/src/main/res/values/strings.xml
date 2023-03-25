@@ -2,4 +2,7 @@
     <string name="app_name">ToDoComposeApp</string>
 
     <string name="list_top_bar_title">Tasks</string>
+    <string name="search">Search</string>
+    <string name="delete_all">Delete All</string>
+    <string name="filter">Filter</string>
 </resources>

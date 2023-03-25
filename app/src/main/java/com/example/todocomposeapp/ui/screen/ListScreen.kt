@@ -7,17 +7,23 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.todocomposeapp.ui.component.ListTopBar
 import com.example.todocomposeapp.ui.theme.fabBackgroundColor
+import com.example.todocomposeapp.utils.SearchAppBarState
 import com.example.todocomposeapp.viewmodel.SharedViewModel
 
 @Composable
 fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}, sharedViewModel: SharedViewModel) {
+
+	val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
+	val searchTextState: String by sharedViewModel.searchTextState
+
 	Scaffold(
 		content = { },
-		topBar = { ListTopBar() },
+		topBar = { ListTopBar(sharedViewModel, searchAppBarState, searchTextState) },
 		floatingActionButton = { ListFAB(navigateToTaskScreen) }
 	)
 }

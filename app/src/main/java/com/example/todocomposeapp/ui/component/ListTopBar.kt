@@ -25,10 +25,27 @@ import com.example.todocomposeapp.data.model.Priority
 import com.example.todocomposeapp.ui.theme.Typography
 import com.example.todocomposeapp.ui.theme.topAppBarBackgroundColor
 import com.example.todocomposeapp.ui.theme.topAppBarContentColor
+import com.example.todocomposeapp.utils.SearchAppBarState
+import com.example.todocomposeapp.viewmodel.SharedViewModel
 
 @Composable
-fun ListTopBar() {
-	DefaultTopBar(onSearchClicked = {}, onSortAction = {}, onDeleteClicked = {})
+fun ListTopBar(
+	sharedViewModel: SharedViewModel,
+	searchAppBarState: SearchAppBarState,
+	searchTextState: String
+) {
+	when (searchAppBarState) {
+		SearchAppBarState.CLOSED -> DefaultTopBar(
+			onSearchClicked = {},
+			onSortAction = {},
+			onDeleteClicked = {})
+		else -> SearchTopBar(
+			text = "",
+			onTextChange = {  },
+			onCloseClicked = {  },
+			onSearchClicked = {  }
+		)
+	}
 }
 
 @Composable

@@ -20,8 +20,8 @@ class SharedViewModel @Inject constructor(
 	private val toDoRepository: ToDoRepository
 ) : AndroidViewModel(application) {
 
-	private val searchAppBarState: MutableState<SearchAppBarState> = mutableStateOf(SearchAppBarState.CLOSED)
-	private val searchTextState: MutableState<String> = mutableStateOf("")
+	val searchAppBarState: MutableState<SearchAppBarState> = mutableStateOf(SearchAppBarState.CLOSED)
+	val searchTextState: MutableState<String> = mutableStateOf("")
 
 	private val _allTaskList = MutableStateFlow<List<ToDoEntity>>(emptyList())
 	val allTaskList: StateFlow<List<ToDoEntity>> get() = _allTaskList

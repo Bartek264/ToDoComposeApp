@@ -2,6 +2,8 @@ package com.example.todocomposeapp.ui.component
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -19,10 +21,15 @@ import com.example.todocomposeapp.data.model.ToDoEntity
 import com.example.todocomposeapp.ui.theme.taskItemBackgroundColor
 import com.example.todocomposeapp.ui.theme.taskItemTextColor
 
-
+@ExperimentalMaterialApi
 @Composable
-fun ListContent() {
-
+fun ListContent(toDoList: List<ToDoEntity>, navigateToTaskScreen: (taskId: Long) -> Unit) {
+	LazyColumn {
+		items(items = toDoList,
+			key = { task -> task.id }) { item: ToDoEntity ->
+			TaskItem(toDoEntity = item, navigateToTaskScreen = navigateToTaskScreen)
+		}
+	}
 }
 
 @ExperimentalMaterialApi
@@ -49,7 +56,11 @@ fun TaskItem(toDoEntity: ToDoEntity, navigateToTaskScreen: (taskId: Long) -> Uni
 					fontWeight = FontWeight.Bold,
 					maxLines = 1
 				)
-				Box(modifier = Modifier.fillMaxWidth().weight(1f), contentAlignment = Alignment.TopEnd) {
+				Box(
+					modifier = Modifier
+						.fillMaxWidth()
+						.weight(1f), contentAlignment = Alignment.TopEnd
+				) {
 					Canvas(modifier = Modifier.size(16.dp)) {
 						drawCircle(color = toDoEntity.priority.color)
 					}
@@ -71,5 +82,7 @@ fun TaskItem(toDoEntity: ToDoEntity, navigateToTaskScreen: (taskId: Long) -> Uni
 @Preview
 @Composable
 fun TaskItemPreview() {
-	TaskItem(toDoEntity = ToDoEntity(1, "Simple title", "Simple description", Priority.MEDIUM), navigateToTaskScreen = {})
+	TaskItem(
+		toDoEntity = ToDoEntity(1, "Simple title", "Simple description", Priority.MEDIUM),
+		navigateToTaskScreen = {})
 }

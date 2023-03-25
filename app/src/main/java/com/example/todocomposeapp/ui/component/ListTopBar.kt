@@ -1,15 +1,23 @@
 package com.example.todocomposeapp.ui.component
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.todocomposeapp.R
@@ -24,7 +32,11 @@ fun ListTopBar() {
 }
 
 @Composable
-fun DefaultTopBar(onSearchClicked: () -> Unit, onSortAction: (Priority) -> Unit, onDeleteClicked: () -> Unit) {
+fun DefaultTopBar(
+	onSearchClicked: () -> Unit,
+	onSortAction: (Priority) -> Unit,
+	onDeleteClicked: () -> Unit
+) {
 	TopAppBar(
 		title = {
 			Text(
@@ -39,7 +51,67 @@ fun DefaultTopBar(onSearchClicked: () -> Unit, onSortAction: (Priority) -> Unit,
 }
 
 @Composable
-fun ListAppBarAction(onSearchClicked: () -> Unit, onSortAction: (Priority) -> Unit, onDeleteClicked: () -> Unit) {
+fun SearchTopBar(
+	text: String,
+	onTextChange: (String) -> Unit,
+	onCloseClicked: () -> Unit,
+	onSearchClicked: (String) -> Unit
+) {
+	Surface(
+		modifier = Modifier
+			.fillMaxWidth()
+			.height(56.dp),
+		elevation = AppBarDefaults.TopAppBarElevation,
+		color = MaterialTheme.colors.topAppBarBackgroundColor
+	) {
+		TextField(
+			modifier = Modifier.fillMaxWidth(),
+			value = text,
+			singleLine = true,
+			onValueChange = { onTextChange(it) },
+			placeholder = {
+				Text(
+					modifier = Modifier.alpha(ContentAlpha.disabled),
+					text = stringResource(id = R.string.search),
+					color = MaterialTheme.colors.topAppBarContentColor
+				)
+			},
+			leadingIcon = {
+				Icon(
+					modifier = Modifier.alpha(ContentAlpha.disabled),
+					imageVector = Icons.Filled.Search,
+					contentDescription = stringResource(id = R.string.search),
+					tint = MaterialTheme.colors.topAppBarContentColor
+				)
+			},
+			trailingIcon = {
+				IconButton(onClick = { onCloseClicked() }) {
+					Icon(
+						imageVector = Icons.Filled.Close,
+						contentDescription = null,
+						tint = MaterialTheme.colors.topAppBarContentColor
+					)
+				}
+			},
+			keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+			keyboardActions = KeyboardActions { onSearchClicked(text) },
+			colors = TextFieldDefaults.textFieldColors(
+				cursorColor = MaterialTheme.colors.topAppBarContentColor,
+				focusedIndicatorColor = Color.Transparent,
+				unfocusedIndicatorColor = Color.Transparent,
+				disabledIndicatorColor = Color.Transparent,
+				backgroundColor = Color.Transparent
+			)
+		)
+	}
+}
+
+@Composable
+fun ListAppBarAction(
+	onSearchClicked: () -> Unit,
+	onSortAction: (Priority) -> Unit,
+	onDeleteClicked: () -> Unit
+) {
 	SearchAction(onSearchClicked = onSearchClicked)
 	SortAction(onSortAction = onSortAction)
 	DeleteAllAction(onDeleteClicked = onDeleteClicked)
@@ -105,7 +177,10 @@ fun DeleteAllAction(onDeleteClicked: () -> Unit) {
 				expanded = false
 				onDeleteClicked()
 			}) {
-				Icon(imageVector = Icons.Filled.Delete, contentDescription = stringResource(id = R.string.delete_all))
+				Icon(
+					imageVector = Icons.Filled.Delete,
+					contentDescription = stringResource(id = R.string.delete_all)
+				)
 				Text(
 					modifier = Modifier.padding(start = 12.dp),
 					text = stringResource(id = R.string.delete_all),
@@ -120,4 +195,10 @@ fun DeleteAllAction(onDeleteClicked: () -> Unit) {
 @Composable
 fun PreviewTopBar() {
 	DefaultTopBar(onSearchClicked = {}, onSortAction = {}, onDeleteClicked = {})
+}
+
+@Preview
+@Composable
+fun SearchTopBarPreview() {
+	SearchTopBar(text = "", onTextChange = { }, onCloseClicked = { }, onSearchClicked = { })
 }

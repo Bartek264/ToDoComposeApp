@@ -9,7 +9,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.todocomposeapp.navigation.SetupNavigation
 import com.example.todocomposeapp.ui.theme.ToDoComposeAppTheme
 import com.example.todocomposeapp.viewmodel.SharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
 	private lateinit var navController: NavHostController

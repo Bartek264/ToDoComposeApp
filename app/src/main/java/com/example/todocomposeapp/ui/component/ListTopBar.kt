@@ -26,6 +26,7 @@ import com.example.todocomposeapp.ui.theme.Typography
 import com.example.todocomposeapp.ui.theme.topAppBarBackgroundColor
 import com.example.todocomposeapp.ui.theme.topAppBarContentColor
 import com.example.todocomposeapp.utils.SearchAppBarState
+import com.example.todocomposeapp.utils.TrailingIconState
 import com.example.todocomposeapp.viewmodel.SharedViewModel
 
 @Composable
@@ -36,14 +37,19 @@ fun ListTopBar(
 ) {
 	when (searchAppBarState) {
 		SearchAppBarState.CLOSED -> DefaultTopBar(
-			onSearchClicked = {},
+			onSearchClicked = {
+				sharedViewModel.searchAppBarState.value = SearchAppBarState.OPENED
+			},
 			onSortAction = {},
 			onDeleteClicked = {})
 		else -> SearchTopBar(
-			text = "",
-			onTextChange = {  },
-			onCloseClicked = {  },
-			onSearchClicked = {  }
+			text = searchTextState,
+			onTextChange = { sharedViewModel.searchTextState.value = it },
+			onCloseClicked = {
+				sharedViewModel.searchAppBarState.value = SearchAppBarState.CLOSED
+				sharedViewModel.searchTextState.value = ""
+			},
+			onSearchClicked = { }
 		)
 	}
 }
@@ -74,6 +80,9 @@ fun SearchTopBar(
 	onCloseClicked: () -> Unit,
 	onSearchClicked: (String) -> Unit
 ) {
+
+	var trailingIconState by remember { mutableStateOf(TrailingIconState.READY_TO_DELETE) }
+
 	Surface(
 		modifier = Modifier
 			.fillMaxWidth()
@@ -102,7 +111,22 @@ fun SearchTopBar(
 				)
 			},
 			trailingIcon = {
-				IconButton(onClick = { onCloseClicked() }) {
+				IconButton(onClick = {
+					when(trailingIconState) {
+						TrailingIconState.READY_TO_DELETE -> {
+							onTextChange("")
+							trailingIconState = TrailingIconState.READY_TO_CLOSE
+						}
+						TrailingIconState.READY_TO_CLOSE -> {
+							if (text.isNotEmpty()) {
+								onTextChange("")
+							} else {
+								onCloseClicked()
+								trailingIconState = TrailingIconState.READY_TO_DELETE
+							}
+						}
+					}
+				}) {
 					Icon(
 						imageVector = Icons.Filled.Close,
 						contentDescription = null,

@@ -10,11 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.todocomposeapp.ui.component.ListTopBar
-import com.example.todocomposeapp.ui.theme.ToDoComposeAppTheme
 import com.example.todocomposeapp.ui.theme.fabBackgroundColor
+import com.example.todocomposeapp.viewmodel.SharedViewModel
 
 @Composable
-fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}) {
+fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}, sharedViewModel: SharedViewModel) {
 	Scaffold(
 		content = { },
 		topBar = { ListTopBar() },
@@ -30,13 +30,5 @@ private fun ListFAB(navigateToTaskScreen: (Long) -> Unit = {}) {
 		backgroundColor = MaterialTheme.colors.fabBackgroundColor
 	) {
 		Icon(imageVector = Icons.Filled.Add, contentDescription = null, tint = Color.White)
-	}
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun ListScreenPreview() {
-	ToDoComposeAppTheme {
-		ListScreen()
 	}
 }

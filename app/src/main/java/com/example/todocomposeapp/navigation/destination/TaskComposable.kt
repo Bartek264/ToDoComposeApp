@@ -7,8 +7,12 @@ import androidx.navigation.navArgument
 import com.example.todocomposeapp.navigation.ArgumentsConst.TASK_ARGUMENTS_KEY
 import com.example.todocomposeapp.navigation.ScreenConst.TASK_SCREEN
 import com.example.todocomposeapp.utils.Action
+import com.example.todocomposeapp.viewmodel.SharedViewModel
 
-fun NavGraphBuilder.taskComposable(navigateToListScreen: (Action) -> Unit) {
+fun NavGraphBuilder.taskComposable(
+	navigateToListScreen: (Action) -> Unit,
+	sharedViewModel: SharedViewModel
+) {
 
 	composable(
 		route = TASK_SCREEN,

@@ -7,4 +7,6 @@
     <string name="filter">Filter</string>
     
     <string name="no_data_found">No Task Found.</string>
+
+    <string name="new_task_title">New Task</string>
 </resources>

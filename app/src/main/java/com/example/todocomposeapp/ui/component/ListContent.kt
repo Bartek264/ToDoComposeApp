@@ -24,6 +24,16 @@ import com.example.todocomposeapp.ui.theme.taskItemTextColor
 @ExperimentalMaterialApi
 @Composable
 fun ListContent(toDoList: List<ToDoEntity>, navigateToTaskScreen: (taskId: Long) -> Unit) {
+	if (toDoList.isEmpty()) {
+		EmptyComponent()
+	} else {
+		DisplayItems(toDoList = toDoList, navigateToTaskScreen = navigateToTaskScreen)
+	}
+}
+
+@ExperimentalMaterialApi
+@Composable
+fun DisplayItems(toDoList: List<ToDoEntity>, navigateToTaskScreen: (taskId: Long) -> Unit) {
 	LazyColumn {
 		items(items = toDoList,
 			key = { task -> task.id }) { item: ToDoEntity ->

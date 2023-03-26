@@ -13,6 +13,7 @@ import com.example.todocomposeapp.data.model.ToDoEntity
 import com.example.todocomposeapp.ui.component.ListContent
 import com.example.todocomposeapp.ui.component.ListTopBar
 import com.example.todocomposeapp.ui.theme.fabBackgroundColor
+import com.example.todocomposeapp.ui.theme.taskItemBackgroundColor
 import com.example.todocomposeapp.utils.RequestState
 import com.example.todocomposeapp.utils.SearchAppBarState
 import com.example.todocomposeapp.viewmodel.SharedViewModel

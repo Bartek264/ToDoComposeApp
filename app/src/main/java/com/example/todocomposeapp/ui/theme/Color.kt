@@ -1,6 +1,7 @@
 package com.example.todocomposeapp.ui.theme
 
 import androidx.compose.material.Colors
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
@@ -32,7 +33,7 @@ val Colors.fabBackgroundColor: Color
 
 val Colors.taskItemBackgroundColor: Color
 	@Composable
-	get() = if (isLight) Color.White else Purple700
+	get() = if (isLight) Color.White else MaterialTheme.colors.background
 
 val Colors.taskItemTextColor: Color
 	@Composable

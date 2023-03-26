@@ -17,8 +17,8 @@ import com.example.todocomposeapp.ui.theme.topAppBarContentColor
 import com.example.todocomposeapp.utils.Action
 
 @Composable
-fun TaskAppBar() {
-
+fun TaskAppBar(navigationToListScreen: (Action) -> Unit) {
+	NewTaskAppBar(navigationToListScreen = navigationToListScreen)
 }
 
 @Composable

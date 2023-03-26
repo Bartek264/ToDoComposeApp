@@ -1,10 +1,7 @@
 package com.example.todocomposeapp.ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -24,7 +21,7 @@ import com.example.todocomposeapp.ui.theme.MediumGray
 fun EmptyComponent() {
 	Column(
 		modifier = Modifier
-			.fillMaxWidth()
+			.fillMaxSize()
 			.background(MaterialTheme.colors.background),
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally

@@ -20,14 +20,20 @@ import com.example.todocomposeapp.data.model.Priority
 import com.example.todocomposeapp.data.model.ToDoEntity
 import com.example.todocomposeapp.ui.theme.taskItemBackgroundColor
 import com.example.todocomposeapp.ui.theme.taskItemTextColor
+import com.example.todocomposeapp.utils.RequestState
 
 @ExperimentalMaterialApi
 @Composable
-fun ListContent(toDoList: List<ToDoEntity>, navigateToTaskScreen: (taskId: Long) -> Unit) {
-	if (toDoList.isEmpty()) {
-		EmptyComponent()
-	} else {
-		DisplayItems(toDoList = toDoList, navigateToTaskScreen = navigateToTaskScreen)
+fun ListContent(
+	todoState: RequestState<List<ToDoEntity>>,
+	navigateToTaskScreen: (taskId: Long) -> Unit
+) {
+	if (todoState is RequestState.Success) {
+		if (todoState.data.isEmpty()) {
+			EmptyComponent()
+		} else {
+			DisplayItems(toDoList = todoState.data, navigateToTaskScreen = navigateToTaskScreen)
+		}
 	}
 }
 

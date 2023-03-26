@@ -13,6 +13,7 @@ import com.example.todocomposeapp.data.model.ToDoEntity
 import com.example.todocomposeapp.ui.component.ListContent
 import com.example.todocomposeapp.ui.component.ListTopBar
 import com.example.todocomposeapp.ui.theme.fabBackgroundColor
+import com.example.todocomposeapp.utils.RequestState
 import com.example.todocomposeapp.utils.SearchAppBarState
 import com.example.todocomposeapp.viewmodel.SharedViewModel
 
@@ -27,11 +28,11 @@ fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}, sharedViewModel: Share
 	val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
 	val searchTextState: String by sharedViewModel.searchTextState
 
-	val allTasks: List<ToDoEntity> by sharedViewModel.allTaskList.collectAsState()
+	val allTasks: RequestState<List<ToDoEntity>> by sharedViewModel.allTaskList.collectAsState()
 
 	Scaffold(
 		topBar = { ListTopBar(sharedViewModel, searchAppBarState, searchTextState) },
-		content = { ListContent(toDoList = allTasks, navigateToTaskScreen = navigateToTaskScreen) },
+		content = { ListContent(todoState = allTasks, navigateToTaskScreen = navigateToTaskScreen) },
 		floatingActionButton = { ListFAB(navigateToTaskScreen) }
 	)
 }

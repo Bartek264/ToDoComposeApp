@@ -9,4 +9,7 @@
     <string name="no_data_found">No Task Found.</string>
 
     <string name="new_task_title">New Task</string>
+    
+    <string name="title">Title</string>
+    <string name="description">Description</string>
 </resources>

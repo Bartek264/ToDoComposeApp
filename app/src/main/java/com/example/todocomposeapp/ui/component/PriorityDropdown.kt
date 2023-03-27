@@ -33,7 +33,7 @@ fun PriorityDropdown(
 	Row(modifier = Modifier
 		.fillMaxWidth()
 		.height(60.dp)
-		.clickable { }
+		.clickable { expended = !expended }
 		.border(
 			width = 1.dp,
 			color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)

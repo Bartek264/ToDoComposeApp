@@ -65,7 +65,7 @@ class SharedViewModel @Inject constructor(
 			title.value = newTitle
 	}
 
-	private suspend fun insertTask() {
+	private fun insertTask() {
 		val toDoEntity = ToDoEntity(
 			id.value,
 			title.value,
@@ -75,7 +75,7 @@ class SharedViewModel @Inject constructor(
 		toDoRepository.insertToDo(toDoEntity)
 	}
 
-	private suspend fun deleteTask() {
+	private fun deleteTask() {
 		val toDoEntity = ToDoEntity(
 			id.value,
 			title.value,
@@ -85,7 +85,7 @@ class SharedViewModel @Inject constructor(
 		toDoRepository.deleteToDo(toDoEntity)
 	}
 
-	suspend fun handleActionState(action: Action) {
+	fun handleActionState(action: Action) {
 		when (action) {
 			Action.ADD -> insertTask()
 			Action.UPDATE -> insertTask()

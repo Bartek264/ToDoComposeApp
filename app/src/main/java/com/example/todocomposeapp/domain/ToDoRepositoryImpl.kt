@@ -9,23 +9,23 @@ import kotlinx.coroutines.launch
 
 class ToDoRepositoryImpl(private val toDoDao: ToDoDao) : ToDoRepository {
 
-	override suspend fun insertToDo(toDoEntity: ToDoEntity) {
+	override fun insertToDo(toDoEntity: ToDoEntity) {
 		CoroutineScope(Dispatchers.IO).launch { toDoDao.insert(toDoEntity) }
 	}
 
-	override suspend fun getAllToDo(): Flow<List<ToDoEntity>> = toDoDao.getAll()
+	override fun getAllToDo(): Flow<List<ToDoEntity>> = toDoDao.getAll()
 
-	override suspend fun getSpecificTask(taskId: Long): Flow<ToDoEntity> = toDoDao.getSpecific(taskId)
+	override fun getSpecificTask(taskId: Long): Flow<ToDoEntity> = toDoDao.getSpecific(taskId)
 
-	override suspend fun getSortedListFromLowPriority(): Flow<List<ToDoEntity>> = toDoDao.sortByLowPriority()
+	override fun getSortedListFromLowPriority(): Flow<List<ToDoEntity>> = toDoDao.sortByLowPriority()
 
-	override suspend fun getSortedListFromHighPriority(): Flow<List<ToDoEntity>> = toDoDao.sortByHighPriority()
+	override fun getSortedListFromHighPriority(): Flow<List<ToDoEntity>> = toDoDao.sortByHighPriority()
 
-	override suspend fun deleteToDo(toDoEntity: ToDoEntity) {
+	override fun deleteToDo(toDoEntity: ToDoEntity) {
 		CoroutineScope(Dispatchers.IO).launch { toDoDao.delete(toDoEntity) }
 	}
 
-	override suspend fun deleteAll() {
+	override fun deleteAll() {
 		CoroutineScope(Dispatchers.IO).launch { toDoDao.deleteAll() }
 	}
 }

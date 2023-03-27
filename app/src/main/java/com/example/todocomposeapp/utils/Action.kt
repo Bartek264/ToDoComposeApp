@@ -11,7 +11,7 @@ enum class Action {
 
 }
 
-fun String.toAction() = when (this) {
+fun String?.toAction() = when (this) {
 	"ADD" -> Action.ADD
 	"UPDATE" -> Action.UPDATE
 	"DELETE" -> Action.DELETE

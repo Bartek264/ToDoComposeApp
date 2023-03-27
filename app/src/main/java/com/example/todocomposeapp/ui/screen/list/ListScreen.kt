@@ -9,7 +9,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import com.example.todocomposeapp.data.model.ToDoEntity
-import com.example.todocomposeapp.ui.component.ListContent
 import com.example.todocomposeapp.ui.component.ListTopBar
 import com.example.todocomposeapp.ui.theme.fabBackgroundColor
 import com.example.todocomposeapp.utils.RequestState
@@ -28,6 +27,10 @@ fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}, sharedViewModel: Share
 	val searchTextState: String by sharedViewModel.searchTextState
 
 	val allTasks: RequestState<List<ToDoEntity>> by sharedViewModel.allTaskList.collectAsState()
+
+	val action by sharedViewModel.action
+
+	sharedViewModel.handleActionState(action)
 
 	Scaffold(
 		topBar = { ListTopBar(sharedViewModel, searchAppBarState, searchTextState) },

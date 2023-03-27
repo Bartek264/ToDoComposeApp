@@ -1,4 +1,4 @@
-package com.example.todocomposeapp.ui.component
+package com.example.todocomposeapp.ui.screen.list
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.todocomposeapp.data.model.Priority
 import com.example.todocomposeapp.data.model.ToDoEntity
+import com.example.todocomposeapp.ui.component.EmptyComponent
 import com.example.todocomposeapp.ui.theme.taskItemBackgroundColor
 import com.example.todocomposeapp.ui.theme.taskItemTextColor
 import com.example.todocomposeapp.utils.RequestState
@@ -42,7 +43,7 @@ fun ListContent(
 fun DisplayItems(toDoList: List<ToDoEntity>, navigateToTaskScreen: (taskId: Long) -> Unit) {
 	LazyColumn {
 		items(items = toDoList,
-			key = { task -> task.id }) { item: ToDoEntity ->
+			key = { task -> task.id ?: 0 }) { item: ToDoEntity ->
 			TaskItem(toDoEntity = item, navigateToTaskScreen = navigateToTaskScreen)
 		}
 	}
@@ -56,7 +57,7 @@ fun TaskItem(toDoEntity: ToDoEntity, navigateToTaskScreen: (taskId: Long) -> Uni
 		color = MaterialTheme.colors.taskItemBackgroundColor,
 		shape = RectangleShape,
 		elevation = 2.dp,
-		onClick = { navigateToTaskScreen(toDoEntity.id) }
+		onClick = { navigateToTaskScreen(toDoEntity.id ?: -1) }
 	) {
 		Column(
 			modifier = Modifier

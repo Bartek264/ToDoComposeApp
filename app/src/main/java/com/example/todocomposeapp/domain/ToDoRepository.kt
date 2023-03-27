@@ -5,18 +5,18 @@ import kotlinx.coroutines.flow.Flow
 
 interface ToDoRepository {
 
-	suspend fun insertToDo(toDoEntity: ToDoEntity)
+	fun insertToDo(toDoEntity: ToDoEntity)
 
-	suspend fun getAllToDo(): Flow<List<ToDoEntity>>
+	fun getAllToDo(): Flow<List<ToDoEntity>>
 
-	suspend fun getSpecificTask(taskId: Long): Flow<ToDoEntity>
+	fun getSpecificTask(taskId: Long): Flow<ToDoEntity>
 
-	suspend fun getSortedListFromLowPriority(): Flow<List<ToDoEntity>>
+	fun getSortedListFromLowPriority(): Flow<List<ToDoEntity>>
 
-	suspend fun getSortedListFromHighPriority(): Flow<List<ToDoEntity>>
+	fun getSortedListFromHighPriority(): Flow<List<ToDoEntity>>
 
-	suspend fun deleteToDo(toDoEntity: ToDoEntity)
+	fun deleteToDo(toDoEntity: ToDoEntity)
 
-	suspend fun deleteAll()
+	fun deleteAll()
 
 }

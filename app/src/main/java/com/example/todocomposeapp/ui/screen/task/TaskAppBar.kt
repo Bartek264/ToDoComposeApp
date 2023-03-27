@@ -16,10 +16,20 @@ import com.example.todocomposeapp.data.model.ToDoEntity
 import com.example.todocomposeapp.ui.theme.topAppBarBackgroundColor
 import com.example.todocomposeapp.ui.theme.topAppBarContentColor
 import com.example.todocomposeapp.utils.Action
+import com.example.todocomposeapp.utils.RequestState
 
 @Composable
-fun TaskAppBar(navigationToListScreen: (Action) -> Unit) {
-	NewTaskAppBar(navigationToListScreen = navigationToListScreen)
+fun TaskAppBar(selectedTask: RequestState<ToDoEntity?>, navigationToListScreen: (Action) -> Unit) {
+	if (selectedTask is RequestState.Success) {
+		if (selectedTask.data == null) {
+			NewTaskAppBar(navigationToListScreen)
+		} else {
+			ExistingTaskAppBar(
+				selectedTask = selectedTask.data,
+				navigateToTaskList = navigationToListScreen
+			)
+		}
+	}
 }
 
 @Composable

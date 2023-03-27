@@ -6,31 +6,23 @@ import com.example.todocomposeapp.data.model.Priority
 import com.example.todocomposeapp.data.model.ToDoEntity
 import com.example.todocomposeapp.utils.Action
 import com.example.todocomposeapp.utils.RequestState
+import com.example.todocomposeapp.viewmodel.SharedViewModel
 
 @Composable
-fun TaskScreen(selectedTask: RequestState<ToDoEntity?>, navigateToListScreen: (Action) -> Unit) {
-
-	if (selectedTask is RequestState.Success) {
-		if (selectedTask.data == null) {
-			NewTaskAppBar(navigateToListScreen)
-		} else {
-			ExistingTaskAppBar(
-				selectedTask = selectedTask.data,
-				navigateToTaskList = navigateToListScreen
-			)
-		}
-	}
+fun TaskScreen(selectedTask: RequestState<ToDoEntity?>,
+			   sharedViewModel: SharedViewModel,
+			   navigateToListScreen: (Action) -> Unit) {
 
 	Scaffold(
-		topBar = { TaskAppBar(navigationToListScreen = navigateToListScreen) },
+		topBar = { TaskAppBar(selectedTask, navigationToListScreen = navigateToListScreen) },
 		content = { pv ->
 			TaskContent(
-				title = "Tile",
-				onTitleChange = {},
-				description = "",
-				onDescriptionChange = {},
-				priority = Priority.LOW,
-				onPrioritySelected = {}
+				title = sharedViewModel.title.value,
+				onTitleChange = { sharedViewModel.title.value = it },
+				description = if (selectedTask is RequestState.Success) selectedTask.data?.description ?: "" else "",
+				onDescriptionChange = { sharedViewModel.description.value = it },
+				priority = if (selectedTask is RequestState.Success) selectedTask.data?.priority ?: Priority.LOW else Priority.LOW,
+				onPrioritySelected = { sharedViewModel.priority.value = it }
 			)
 		}
 	)

@@ -28,7 +28,7 @@ fun NavGraphBuilder.taskComposable(
 		val taskId = navBackStackEntry.arguments!!.getLong(TASK_ARGUMENTS_KEY)
 		sharedViewModel.getSelectedTask(taskId)
 		val selectedTask: RequestState<ToDoEntity> by sharedViewModel.selectedTask.collectAsState()
-		TaskScreen(selectedTask, navigateToListScreen = navigateToListScreen)
+		TaskScreen(selectedTask, sharedViewModel, navigateToListScreen = navigateToListScreen)
 	}
 
 }

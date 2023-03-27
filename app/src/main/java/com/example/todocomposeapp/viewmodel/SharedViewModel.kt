@@ -5,6 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.todocomposeapp.data.model.Priority
 import com.example.todocomposeapp.data.model.ToDoEntity
 import com.example.todocomposeapp.domain.ToDoRepository
 import com.example.todocomposeapp.utils.RequestState
@@ -49,5 +50,10 @@ class SharedViewModel @Inject constructor(
 			_selectedTask.value = RequestState.Error(e)
 		}
 	}
+
+	val id: MutableState<Long> = mutableStateOf(0)
+	val title: MutableState<String> = mutableStateOf("")
+	val description: MutableState<String> = mutableStateOf("")
+	val priority: MutableState<Priority> = mutableStateOf(Priority.NONE)
 
 }

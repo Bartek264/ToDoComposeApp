@@ -13,7 +13,6 @@ import com.example.todocomposeapp.utils.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,21 +38,23 @@ class SharedViewModel @Inject constructor(
 		}
 	}
 
-	private val _selectedTask = MutableStateFlow<RequestState<ToDoEntity>>(RequestState.Idle)
-	val selectedTask: StateFlow<RequestState<ToDoEntity>> get() = _selectedTask
+	private val _selectedTask = MutableStateFlow<ToDoEntity?>(null)
+	val selectedTask: MutableStateFlow<ToDoEntity?> get() = _selectedTask
 
 	fun getSelectedTask(taskId: Long) = viewModelScope.launch {
-		_selectedTask.value = RequestState.Loading
-		try {
-			toDoRepository.getSpecificTask(taskId).collect { _selectedTask.value = RequestState.Success(it) }
-		} catch (e: Exception) {
-			_selectedTask.value = RequestState.Error(e)
-		}
+			toDoRepository.getSpecificTask(taskId).collect { _selectedTask.value = it }
 	}
 
 	val id: MutableState<Long> = mutableStateOf(0)
 	val title: MutableState<String> = mutableStateOf("")
 	val description: MutableState<String> = mutableStateOf("")
 	val priority: MutableState<Priority> = mutableStateOf(Priority.NONE)
+
+	fun updateSelectedTask(selectedTask: ToDoEntity?) {
+		id.value = selectedTask?.id ?: 0
+		title.value = selectedTask?.title ?: ""
+		description.value = selectedTask?.description ?: ""
+		priority.value = selectedTask?.priority ?: Priority.LOW
+	}
 
 }

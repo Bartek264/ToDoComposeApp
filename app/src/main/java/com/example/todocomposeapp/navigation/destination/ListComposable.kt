@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.todocomposeapp.navigation.ArgumentsConst.LIST_ARGUMENTS_KEY
 import com.example.todocomposeapp.navigation.ScreenConst.LIST_SCREEN
-import com.example.todocomposeapp.ui.screen.ListScreen
+import com.example.todocomposeapp.ui.screen.list.ListScreen
 import com.example.todocomposeapp.viewmodel.SharedViewModel
 @ExperimentalMaterialApi
 fun NavGraphBuilder.listComposable(

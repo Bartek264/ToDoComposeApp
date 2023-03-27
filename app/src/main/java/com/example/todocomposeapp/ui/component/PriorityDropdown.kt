@@ -58,7 +58,7 @@ fun PriorityDropdown(
 			onClick = { expended = true }) {
 			Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = null)
 		}
-		DropdownMenu(modifier = Modifier.fillMaxWidth(), expanded = expended, onDismissRequest = { expended = false }) {
+		DropdownMenu(modifier = Modifier.fillMaxWidth(0.94f), expanded = expended, onDismissRequest = { expended = false }) {
 			DropdownMenuItem(onClick = {
 				expended = false
 				onPrioritySelected(Priority.NONE)

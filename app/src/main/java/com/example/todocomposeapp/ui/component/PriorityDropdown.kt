@@ -36,9 +36,10 @@ fun PriorityDropdown(
 		.clickable { expended = !expended }
 		.border(
 			width = 1.dp,
-			color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+			color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
+			shape = MaterialTheme.shapes.small
 		),
-		verticalAlignment = Alignment.CenterVertically
+		verticalAlignment = Alignment.CenterVertically,
 	) {
 		Canvas(modifier = Modifier
 			.size(12.dp)

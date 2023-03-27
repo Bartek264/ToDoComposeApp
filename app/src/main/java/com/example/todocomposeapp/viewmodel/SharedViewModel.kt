@@ -12,8 +12,10 @@ import com.example.todocomposeapp.utils.Action
 import com.example.todocomposeapp.utils.RequestState
 import com.example.todocomposeapp.utils.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,6 +30,23 @@ class SharedViewModel @Inject constructor(
 	val searchAppBarState: MutableState<SearchAppBarState> =
 		mutableStateOf(SearchAppBarState.CLOSED)
 	val searchTextState: MutableState<String> = mutableStateOf("")
+
+	private val _searchTaskList = MutableStateFlow<RequestState<List<ToDoEntity>>>(RequestState.Idle)
+	val searchTaskList: StateFlow<RequestState<List<ToDoEntity>>> get() = _searchTaskList
+
+	fun searchTask(searchQuery: String) {
+		_searchTaskList.value = RequestState.Loading
+		try {
+			viewModelScope.launch {
+				toDoRepository.searchDatabase(searchQuery = "%$searchQuery%").collect {
+					_searchTaskList.value = RequestState.Success(it)
+				}
+			}
+		} catch (e: Exception) {
+			_searchTaskList.value = RequestState.Error(e)
+		}
+		searchAppBarState.value = SearchAppBarState.TRIGGERED
+	}
 
 	private val _allTaskList = MutableStateFlow<RequestState<List<ToDoEntity>>>(RequestState.Idle)
 	val allTaskList: StateFlow<RequestState<List<ToDoEntity>>> get() = _allTaskList

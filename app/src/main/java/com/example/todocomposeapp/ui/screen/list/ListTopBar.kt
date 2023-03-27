@@ -49,7 +49,9 @@ fun ListTopBar(
 				sharedViewModel.searchAppBarState.value = SearchAppBarState.CLOSED
 				sharedViewModel.searchTextState.value = ""
 			},
-			onSearchClicked = { }
+			onSearchClicked = {
+				sharedViewModel.searchTask(it)
+			}
 		)
 	}
 }

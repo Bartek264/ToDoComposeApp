@@ -26,6 +26,7 @@ fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}, sharedViewModel: Share
 	val searchTextState: String by sharedViewModel.searchTextState
 
 	val allTasks: RequestState<List<ToDoEntity>> by sharedViewModel.allTaskList.collectAsState()
+	val searchedTask: RequestState<List<ToDoEntity>> by sharedViewModel.searchTaskList.collectAsState()
 
 	val action by sharedViewModel.action
 
@@ -34,6 +35,7 @@ fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}, sharedViewModel: Share
 	Snackbar(
 		scaffoldState = scaffoldState,
 		handleDatabaseAction = { sharedViewModel.handleActionState(action) },
+		onUndoClicked = { sharedViewModel.action.value = it },
 		taskTitle = sharedViewModel.title.value,
 		action = action
 	)
@@ -41,10 +43,12 @@ fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}, sharedViewModel: Share
 	Scaffold(
 		scaffoldState = scaffoldState,
 		topBar = { ListTopBar(sharedViewModel, searchAppBarState, searchTextState) },
-		content = {
+		content = { _ ->
 			ListContent(
-				todoState = allTasks,
-				navigateToTaskScreen = navigateToTaskScreen
+				allTasks = allTasks,
+				navigateToTaskScreen = navigateToTaskScreen,
+				searchedTasks = searchedTask,
+				searchAppBarState = searchAppBarState
 			)
 		},
 		floatingActionButton = { ListFAB(navigateToTaskScreen) }
@@ -65,6 +69,7 @@ private fun ListFAB(navigateToTaskScreen: (Long) -> Unit = {}) {
 fun Snackbar(
 	scaffoldState: ScaffoldState,
 	handleDatabaseAction: () -> Unit,
+	onUndoClicked: (Action) -> Unit,
 	taskTitle: String,
 	action: Action
 ) {
@@ -76,9 +81,24 @@ fun Snackbar(
 			scope.launch {
 				val snackbarResult = scaffoldState.snackbarHostState.showSnackbar(
 					message = "${action.name}: $taskTitle",
-					actionLabel = "OK"
+					actionLabel = setSnackbarAction(action)
 				)
+				undoSnackBarAction(action, snackbarResult, onUndoClicked)
 			}
 		}
+	}
+}
+
+private fun setSnackbarAction(action: Action): String {
+	return if (action == Action.DELETE) {
+		"UNDO"
+	} else {
+		"OK"
+	}
+}
+
+private fun undoSnackBarAction(action: Action, snackbarResult: SnackbarResult, onUndoClicked: (Action) -> Unit) {
+	if (snackbarResult == SnackbarResult.ActionPerformed && action == Action.DELETE) {
+		onUndoClicked(Action.UNDO)
 	}
 }

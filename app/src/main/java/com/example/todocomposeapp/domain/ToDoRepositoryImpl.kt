@@ -17,6 +17,8 @@ class ToDoRepositoryImpl(private val toDoDao: ToDoDao) : ToDoRepository {
 
 	override fun getSpecificTask(taskId: Long): Flow<ToDoEntity> = toDoDao.getSpecific(taskId)
 
+	override fun searchDatabase(searchQuery: String): Flow<List<ToDoEntity>> = toDoDao.searchDatabase(searchQuery)
+
 	override fun getSortedListFromLowPriority(): Flow<List<ToDoEntity>> = toDoDao.sortByLowPriority()
 
 	override fun getSortedListFromHighPriority(): Flow<List<ToDoEntity>> = toDoDao.sortByHighPriority()

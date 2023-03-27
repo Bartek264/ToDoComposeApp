@@ -11,6 +11,8 @@ interface ToDoRepository {
 
 	fun getSpecificTask(taskId: Long): Flow<ToDoEntity>
 
+	fun searchDatabase(searchQuery: String): Flow<List<ToDoEntity>>
+
 	fun getSortedListFromLowPriority(): Flow<List<ToDoEntity>>
 
 	fun getSortedListFromHighPriority(): Flow<List<ToDoEntity>>

@@ -1,4 +1,4 @@
-package com.example.todocomposeapp.ui.component
+package com.example.todocomposeapp.ui.screen.list
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.todocomposeapp.R
 import com.example.todocomposeapp.data.model.Priority
+import com.example.todocomposeapp.ui.component.PriorityItem
 import com.example.todocomposeapp.ui.theme.Typography
 import com.example.todocomposeapp.ui.theme.topAppBarBackgroundColor
 import com.example.todocomposeapp.ui.theme.topAppBarContentColor
@@ -114,7 +115,7 @@ fun SearchTopBar(
 			},
 			trailingIcon = {
 				IconButton(onClick = {
-					when(trailingIconState) {
+					when (trailingIconState) {
 						TrailingIconState.READY_TO_DELETE -> {
 							onTextChange("")
 							trailingIconState = TrailingIconState.READY_TO_CLOSE

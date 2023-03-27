@@ -6,7 +6,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import com.example.todocomposeapp.data.model.ToDoEntity
-import com.example.todocomposeapp.ui.component.ListTopBar
 import com.example.todocomposeapp.ui.theme.fabBackgroundColor
 import com.example.todocomposeapp.utils.Action
 import com.example.todocomposeapp.utils.RequestState

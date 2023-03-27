@@ -34,7 +34,7 @@ fun TaskContent(
 			onValueChange = { onTitleChange(it) },
 			label = { Text(text = stringResource(id = R.string.title)) },
 			singleLine = true,
-			textStyle = MaterialTheme.typography.body1
+			textStyle = MaterialTheme.typography.body1,
 		)
 
 		Divider(modifier = Modifier.height(8.dp), color = MaterialTheme.colors.background)

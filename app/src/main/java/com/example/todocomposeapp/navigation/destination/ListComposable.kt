@@ -1,6 +1,7 @@
 package com.example.todocomposeapp.navigation.destination
 
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
@@ -8,6 +9,7 @@ import androidx.navigation.navArgument
 import com.example.todocomposeapp.navigation.ArgumentsConst.LIST_ARGUMENTS_KEY
 import com.example.todocomposeapp.navigation.ScreenConst.LIST_SCREEN
 import com.example.todocomposeapp.ui.screen.list.ListScreen
+import com.example.todocomposeapp.utils.toAction
 import com.example.todocomposeapp.viewmodel.SharedViewModel
 @ExperimentalMaterialApi
 fun NavGraphBuilder.listComposable(
@@ -19,7 +21,13 @@ fun NavGraphBuilder.listComposable(
 		arguments = listOf(navArgument(LIST_ARGUMENTS_KEY) {
 			type = NavType.StringType
 		})
-	) {
+	) { navBackStackEntry ->
+		val action = navBackStackEntry.arguments!!.getString(LIST_ARGUMENTS_KEY)!!.toAction()
+		
+		LaunchedEffect(key1 = action) {
+			sharedViewModel.action.value = action
+		}
+		
 		ListScreen(navigateToTaskScreen, sharedViewModel)
 	}
 }

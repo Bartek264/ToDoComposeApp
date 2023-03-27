@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.todocomposeapp.data.model.Priority
 import com.example.todocomposeapp.data.model.ToDoEntity
 import com.example.todocomposeapp.domain.ToDoRepository
+import com.example.todocomposeapp.utils.Action
 import com.example.todocomposeapp.utils.RequestState
 import com.example.todocomposeapp.utils.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,8 @@ class SharedViewModel @Inject constructor(
 	application: Application,
 	private val toDoRepository: ToDoRepository
 ) : AndroidViewModel(application) {
+
+	val action = mutableStateOf(Action.NO_ACTION)
 
 	val searchAppBarState: MutableState<SearchAppBarState> =
 		mutableStateOf(SearchAppBarState.CLOSED)
@@ -45,16 +48,56 @@ class SharedViewModel @Inject constructor(
 			toDoRepository.getSpecificTask(taskId).collect { _selectedTask.value = it }
 	}
 
-	val id: MutableState<Long> = mutableStateOf(0)
+	val id: MutableState<Long?> = mutableStateOf(0)
 	val title: MutableState<String> = mutableStateOf("")
 	val description: MutableState<String> = mutableStateOf("")
 	val priority: MutableState<Priority> = mutableStateOf(Priority.NONE)
 
 	fun updateSelectedTask(selectedTask: ToDoEntity?) {
-		id.value = selectedTask?.id ?: 0
+		id.value = selectedTask?.id
 		title.value = selectedTask?.title ?: ""
 		description.value = selectedTask?.description ?: ""
 		priority.value = selectedTask?.priority ?: Priority.LOW
+	}
+
+	fun updateTitle(newTitle: String) {
+		if (newTitle.length < 20)
+			title.value = newTitle
+	}
+
+	private suspend fun insertTask() {
+		val toDoEntity = ToDoEntity(
+			id.value,
+			title.value,
+			description.value,
+			priority.value
+		)
+		toDoRepository.insertToDo(toDoEntity)
+	}
+
+	private suspend fun deleteTask() {
+		val toDoEntity = ToDoEntity(
+			id.value,
+			title.value,
+			description.value,
+			priority.value
+		)
+		toDoRepository.deleteToDo(toDoEntity)
+	}
+
+	suspend fun handleActionState(action: Action) {
+		when (action) {
+			Action.ADD -> insertTask()
+			Action.UPDATE -> insertTask()
+			Action.UNDO -> {}
+			Action.DELETE -> deleteTask()
+			Action.DELETE_ALL -> toDoRepository.deleteAll()
+			Action.NO_ACTION -> {}
+		}
+	}
+
+	fun validateFields(): Boolean {
+		return title.value.isNotEmpty() && description.value.isNotEmpty()
 	}
 
 }

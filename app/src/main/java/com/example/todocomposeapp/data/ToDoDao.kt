@@ -36,9 +36,9 @@ interface ToDoDao {
 	fun sortByHighPriority(): Flow<List<ToDoEntity>>
 
 	@Delete
-	suspend fun delete(toDoEntity: ToDoEntity)
+	fun delete(toDoEntity: ToDoEntity)
 
 	@Query("DELETE FROM to_do_table")
-	suspend fun deleteAll()
+	fun deleteAll()
 
 }

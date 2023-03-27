@@ -22,10 +22,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.todocomposeapp.R
 import com.example.todocomposeapp.data.model.Priority
+import com.example.todocomposeapp.ui.component.CustomAlertDialog
 import com.example.todocomposeapp.ui.component.PriorityItem
 import com.example.todocomposeapp.ui.theme.Typography
 import com.example.todocomposeapp.ui.theme.topAppBarBackgroundColor
 import com.example.todocomposeapp.ui.theme.topAppBarContentColor
+import com.example.todocomposeapp.utils.Action
 import com.example.todocomposeapp.utils.SearchAppBarState
 import com.example.todocomposeapp.utils.TrailingIconState
 import com.example.todocomposeapp.viewmodel.SharedViewModel
@@ -42,7 +44,7 @@ fun ListTopBar(
 				sharedViewModel.searchAppBarState.value = SearchAppBarState.OPENED
 			},
 			onSortAction = {},
-			onDeleteClicked = {})
+			onDeleteClicked = { sharedViewModel.action.value = Action.DELETE_ALL })
 		else -> SearchTopBar(
 			text = searchTextState,
 			onTextChange = { sharedViewModel.searchTextState.value = it },
@@ -156,9 +158,22 @@ fun ListAppBarAction(
 	onSortAction: (Priority) -> Unit,
 	onDeleteClicked: () -> Unit
 ) {
+
+	var openDialog by remember { mutableStateOf(false) }
+
+	CustomAlertDialog(
+		title = stringResource(id = R.string.dialog_title_all),
+		message = stringResource(id = R.string.dialog_message_all),
+		openDialog = openDialog,
+		closeDialog = { openDialog = false },
+		onYesClicked = {
+			onDeleteClicked()
+		}
+	)
+
 	SearchAction(onSearchClicked = onSearchClicked)
 	SortAction(onSortAction = onSortAction)
-	DeleteAllAction(onDeleteClicked = onDeleteClicked)
+	DeleteAllAction(onDeleteClicked = { openDialog = true })
 }
 
 @Composable

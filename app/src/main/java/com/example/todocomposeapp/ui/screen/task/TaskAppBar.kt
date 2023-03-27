@@ -6,13 +6,14 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.todocomposeapp.R
 import com.example.todocomposeapp.data.model.Priority
 import com.example.todocomposeapp.data.model.ToDoEntity
+import com.example.todocomposeapp.ui.component.CustomAlertDialog
 import com.example.todocomposeapp.ui.theme.topAppBarBackgroundColor
 import com.example.todocomposeapp.ui.theme.topAppBarContentColor
 import com.example.todocomposeapp.utils.Action
@@ -64,10 +65,25 @@ fun ExistingTaskAppBar(
 		},
 		backgroundColor = MaterialTheme.colors.topAppBarBackgroundColor,
 		actions = {
-			DeleteTask(onDeleteClick = navigateToTaskList)
-			UpdateTask(onUpdateTask = navigateToTaskList)
+			ExistingTaskAppBarAction(selectedTask, navigateToTaskList)
 		}
 	)
+}
+
+@Composable
+fun ExistingTaskAppBarAction(selectedTask: ToDoEntity, navigateToTaskList: (Action) -> Unit) {
+
+	var openDialog by remember { mutableStateOf(false) }
+
+	CustomAlertDialog(
+		title = stringResource(id = R.string.dialog_title, selectedTask.title),
+		message = stringResource(id = R.string.dialog_message, selectedTask.title),
+		openDialog = openDialog,
+		closeDialog = { openDialog = false },
+		onYesClicked = { navigateToTaskList(Action.DELETE) })
+
+	DeleteTask(onDeleteClick = { openDialog = true })
+	UpdateTask(onUpdateTask = navigateToTaskList)
 }
 
 @Composable
@@ -134,5 +150,7 @@ fun NewTaskPreview() {
 @Preview
 @Composable
 fun ExistingTaskPreview() {
-	ExistingTaskAppBar(selectedTask = ToDoEntity(0, "Sample title", "Description", Priority.LOW), navigateToTaskList = {})
+	ExistingTaskAppBar(
+		selectedTask = ToDoEntity(0, "Sample title", "Description", Priority.LOW),
+		navigateToTaskList = {})
 }

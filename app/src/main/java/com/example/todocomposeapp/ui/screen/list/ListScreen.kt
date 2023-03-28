@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import com.example.todocomposeapp.data.model.Priority
 import com.example.todocomposeapp.data.model.ToDoEntity
 import com.example.todocomposeapp.ui.theme.fabBackgroundColor
 import com.example.todocomposeapp.utils.Action
@@ -19,6 +20,7 @@ fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}, sharedViewModel: Share
 
 	LaunchedEffect(key1 = true) {
 		sharedViewModel.getAllTask()
+		sharedViewModel.readSortState()
 	}
 
 	val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
@@ -26,6 +28,8 @@ fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}, sharedViewModel: Share
 
 	val allTasks: RequestState<List<ToDoEntity>> by sharedViewModel.allTaskList.collectAsState()
 	val searchedTask: RequestState<List<ToDoEntity>> by sharedViewModel.searchTaskList.collectAsState()
+
+	val sortState: RequestState<Priority> by sharedViewModel.sortState.collectAsState()
 
 	val action by sharedViewModel.action
 

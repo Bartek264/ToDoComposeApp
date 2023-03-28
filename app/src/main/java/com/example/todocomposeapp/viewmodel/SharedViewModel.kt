@@ -2,6 +2,7 @@ package com.example.todocomposeapp.viewmodel
 
 import android.app.Application
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,6 +17,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -58,6 +61,24 @@ class SharedViewModel @Inject constructor(
 			toDoRepository.getAllToDo().collect { _allTaskList.value = RequestState.Success(it) }
 		} catch (e: Exception) {
 			_allTaskList.value = RequestState.Error(e)
+		}
+	}
+
+	private val _sortState = MutableStateFlow<RequestState<Priority>>(RequestState.Idle)
+	val sortState: StateFlow<RequestState<Priority>> get() = _sortState
+
+	fun readSortState() {
+		_sortState.value = RequestState.Loading
+		try {
+			viewModelScope.launch {
+				dataStoreRepository.readSortState
+					.map { Priority.valueOf(it) }
+					.collect {
+						_sortState.value = RequestState.Success(it)
+					}
+			}
+		} catch (e: Exception) {
+			_sortState.value = RequestState.Error(e)
 		}
 	}
 

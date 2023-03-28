@@ -2,7 +2,6 @@ package com.example.todocomposeapp.viewmodel
 
 import android.app.Application
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,10 +14,7 @@ import com.example.todocomposeapp.utils.RequestState
 import com.example.todocomposeapp.utils.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,7 +31,8 @@ class SharedViewModel @Inject constructor(
 		mutableStateOf(SearchAppBarState.CLOSED)
 	val searchTextState: MutableState<String> = mutableStateOf("")
 
-	private val _searchTaskList = MutableStateFlow<RequestState<List<ToDoEntity>>>(RequestState.Idle)
+	private val _searchTaskList =
+		MutableStateFlow<RequestState<List<ToDoEntity>>>(RequestState.Idle)
 	val searchTaskList: StateFlow<RequestState<List<ToDoEntity>>> get() = _searchTaskList
 
 	fun searchTask(searchQuery: String) {
@@ -64,6 +61,20 @@ class SharedViewModel @Inject constructor(
 		}
 	}
 
+	val lowPriorityTasks: StateFlow<List<ToDoEntity>> =
+		toDoRepository.getSortedListFromLowPriority().stateIn(
+			scope = viewModelScope,
+			started = SharingStarted.WhileSubscribed(),
+			initialValue = emptyList()
+		)
+
+	val highPriorityTasks: StateFlow<List<ToDoEntity>> =
+		toDoRepository.getSortedListFromHighPriority().stateIn(
+			scope = viewModelScope,
+			started = SharingStarted.WhileSubscribed(),
+			initialValue = emptyList()
+		)
+
 	private val _sortState = MutableStateFlow<RequestState<Priority>>(RequestState.Idle)
 	val sortState: StateFlow<RequestState<Priority>> get() = _sortState
 
@@ -90,7 +101,7 @@ class SharedViewModel @Inject constructor(
 	val selectedTask: MutableStateFlow<ToDoEntity?> get() = _selectedTask
 
 	fun getSelectedTask(taskId: Long) = viewModelScope.launch {
-			toDoRepository.getSpecificTask(taskId).collect { _selectedTask.value = it }
+		toDoRepository.getSpecificTask(taskId).collect { _selectedTask.value = it }
 	}
 
 	val id: MutableState<Long?> = mutableStateOf(0)

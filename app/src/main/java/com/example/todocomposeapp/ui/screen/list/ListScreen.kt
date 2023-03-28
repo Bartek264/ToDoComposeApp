@@ -30,6 +30,8 @@ fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}, sharedViewModel: Share
 	val searchedTask: RequestState<List<ToDoEntity>> by sharedViewModel.searchTaskList.collectAsState()
 
 	val sortState: RequestState<Priority> by sharedViewModel.sortState.collectAsState()
+	val lowSortTask: List<ToDoEntity> by sharedViewModel.lowPriorityTasks.collectAsState()
+	val highSortTask: List<ToDoEntity> by sharedViewModel.highPriorityTasks.collectAsState()
 
 	val action by sharedViewModel.action
 

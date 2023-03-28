@@ -14,7 +14,7 @@ val LightGray = Color(0xFFFCFCFC)
 val MediumGray = Color(0xFF9C9C9C)
 val DarkGray = Color(0xFF141414)
 
-val NoneTaskPriority = Color(0xFFFFFFFF)
+val NoneTaskPriority = MediumGray
 val LowTaskPriority = Color(0xFF00C980)
 val MediumTaskPriority = Color(0xFFFFC114)
 val HighTaskPriority = Color(0xFFFF4646)

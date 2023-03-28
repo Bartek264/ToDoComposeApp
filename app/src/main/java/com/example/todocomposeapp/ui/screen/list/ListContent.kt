@@ -11,7 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -110,6 +109,14 @@ fun DisplayItems(
 		items(items = toDoList,
 			key = { task -> task.id ?: 0 }) { item: ToDoEntity ->
 			val dismissState = rememberDismissState()
+
+			val dismissDirection = dismissState.dismissDirection
+			val isDismissed = dismissState.isDismissed(dismissDirection ?: DismissDirection.EndToStart)
+
+			if (isDismissed && dismissDirection == DismissDirection.EndToStart) {
+				onSwipeToDelete(Action.DELETE, item)
+			}
+
 			val degrees by animateFloatAsState(
 				targetValue = if (dismissState.targetValue == DismissValue.Default)
 					0f

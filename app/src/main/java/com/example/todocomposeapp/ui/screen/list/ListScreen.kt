@@ -56,7 +56,11 @@ fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}, sharedViewModel: Share
 				searchAppBarState = searchAppBarState,
 				sortState = sortState,
 				lowPriorityTasks = lowSortTask,
-				highPriorityTasks = highSortTask
+				highPriorityTasks = highSortTask,
+				onSwipeToDelete = { action, toDoEntity ->
+					sharedViewModel.action.value = action
+					sharedViewModel.updateSelectedTask(toDoEntity)
+				}
 			)
 		},
 		floatingActionButton = { ListFAB(navigateToTaskScreen) }

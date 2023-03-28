@@ -43,7 +43,7 @@ fun ListTopBar(
 			onSearchClicked = {
 				sharedViewModel.searchAppBarState.value = SearchAppBarState.OPENED
 			},
-			onSortAction = {},
+			onSortAction = { sharedViewModel.setSortState(it) },
 			onDeleteClicked = { sharedViewModel.action.value = Action.DELETE_ALL })
 		else -> SearchTopBar(
 			text = searchTextState,
@@ -208,10 +208,6 @@ fun SortAction(onSortAction: (Priority) -> Unit) {
 				expended = false
 				onSortAction(Priority.LOW)
 			}) { PriorityItem(priority = Priority.LOW) }
-			DropdownMenuItem(onClick = {
-				expended = false
-				onSortAction(Priority.MEDIUM)
-			}) { PriorityItem(priority = Priority.MEDIUM) }
 			DropdownMenuItem(onClick = {
 				expended = false
 				onSortAction(Priority.HIGH)

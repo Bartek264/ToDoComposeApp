@@ -16,7 +16,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -60,6 +59,10 @@ class SharedViewModel @Inject constructor(
 		} catch (e: Exception) {
 			_allTaskList.value = RequestState.Error(e)
 		}
+	}
+
+	fun setSortState(priority: Priority) = viewModelScope.launch(Dispatchers.IO) {
+		dataStoreRepository.setSortState(priority)
 	}
 
 	private val _selectedTask = MutableStateFlow<ToDoEntity?>(null)

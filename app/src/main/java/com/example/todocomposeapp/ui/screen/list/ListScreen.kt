@@ -53,7 +53,10 @@ fun ListScreen(navigateToTaskScreen: (Long) -> Unit = {}, sharedViewModel: Share
 				allTasks = allTasks,
 				navigateToTaskScreen = navigateToTaskScreen,
 				searchedTasks = searchedTask,
-				searchAppBarState = searchAppBarState
+				searchAppBarState = searchAppBarState,
+				sortState = sortState,
+				lowPriorityTasks = lowSortTask,
+				highPriorityTasks = highSortTask
 			)
 		},
 		floatingActionButton = { ListFAB(navigateToTaskScreen) }
@@ -102,7 +105,11 @@ private fun setSnackbarAction(action: Action): String {
 	}
 }
 
-private fun undoSnackBarAction(action: Action, snackbarResult: SnackbarResult, onUndoClicked: (Action) -> Unit) {
+private fun undoSnackBarAction(
+	action: Action,
+	snackbarResult: SnackbarResult,
+	onUndoClicked: (Action) -> Unit
+) {
 	if (snackbarResult == SnackbarResult.ActionPerformed && action == Action.DELETE) {
 		onUndoClicked(Action.UNDO)
 	}

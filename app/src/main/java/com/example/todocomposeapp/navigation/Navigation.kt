@@ -23,8 +23,8 @@ fun SetupNavigation(navController: NavHostController, sharedViewModel: SharedVie
 		startDestination = SPLASH_SCREEN
 	) {
 		splashComposable(screens.splash)
-		listComposable(screens.task, sharedViewModel)
-		taskComposable(screens.list, sharedViewModel)
+		listComposable(screens.list, sharedViewModel)
+		taskComposable(screens.task, sharedViewModel)
 	}
 
 }

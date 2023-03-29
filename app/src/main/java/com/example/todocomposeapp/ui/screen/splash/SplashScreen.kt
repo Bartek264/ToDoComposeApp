@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -16,9 +17,16 @@ import androidx.compose.ui.unit.dp
 import com.example.todocomposeapp.R
 import com.example.todocomposeapp.ui.theme.ToDoComposeAppTheme
 import com.example.todocomposeapp.ui.theme.splashScreenBackground
+import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(navToListScreen: () -> Unit) {
+
+	LaunchedEffect(key1 = true) {
+		delay(3000)
+		navToListScreen()
+	}
+
 	Box(
 		modifier = Modifier
 			.fillMaxSize()
@@ -39,13 +47,13 @@ fun getSplashIcon() = if (isSystemInDarkTheme()) R.drawable.logo_light else R.dr
 @Preview(showSystemUi = true)
 @Composable
 fun SplashScreenPreview() {
-	SplashScreen()
+	SplashScreen() {}
 }
 
 @Composable
 @Preview
 fun SplashScreenPreviewDark() {
 	ToDoComposeAppTheme(darkTheme = true) {
-		SplashScreen()
+		SplashScreen() {}
 	}
 }
